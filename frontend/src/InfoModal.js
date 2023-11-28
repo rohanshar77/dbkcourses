@@ -25,23 +25,21 @@ const InfoModal = ({ isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={onClose} size="md">
       <ModalOverlay style={{ backdropFilter: "blur(2px)", backgroundColor: "rgba(0, 0, 0, 0.2)" }} />
       <ModalContent maxW={modalWidth}>
-        <ModalHeader>Introducing Terrapin Course Search &nbsp;&#x1F389;</ModalHeader>
+        <ModalHeader>Welcome to Course Search by DBK &nbsp;&#x1F389;</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <VStack align="start" spacing={4}>
             <Text>
-              The first AI powered search engine for the UMD course catalog.
+              The first AI powered search engine for the University of Maryland course catalog.
             </Text>
             <Text>
-              With Terrapin Course Search, students can search for courses based on interests, topics, career paths, etc.
+              This tool enables UMD students to discover courses from across the university based on their interests, topics, career paths, etc.
             </Text>
             <Text>
               Our database has information about courses, professors, average GPA, and more!
             </Text>
-            <Text>
-              Try asking a question and clicking the Magic Response button to get a text-answer.
-            </Text>
-            <Text fontWeight="bold">Examples:</Text>
+
+            <Text fontWeight="bold">Example queries:</Text>
             <VStack align="start" spacing={1}>
               <Text> - "I want to learn about climate change"</Text>
               <Text> - "Compare and contrast ENGL393 and ENGL394"</Text>
@@ -63,9 +61,6 @@ const InfoModal = ({ isOpen, onClose }) => {
               </Text>
             </Link>
           </VStack>
-          <Box alignSelf="flex-start" mt={4}>
-            <Text>- Rohan and Kito</Text>
-          </Box>
         </ModalBody>
         <ModalFooter>
           <Button colorScheme="orange" onClick={onClose}>
