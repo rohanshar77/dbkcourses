@@ -304,19 +304,19 @@ const Homepage = () => {
 
 
 
-
-
-
-            <VStack mt='10'>
+            <VStack mb='4'>
                 <Box h={fastSearchResults.length > 0 ? (isMobile ? '7vh' : '0rem') : 0}></Box>
 
-                <Image mb='3'
+                <Image mb='4'
                     height={fastSearchResults.length > 0 ? '8rem' : '11rem'} src="/dbk/image4.png"></Image>
                 <Heading
+                    pt='4'
                     pb="3"
                     bgGradient="linear(to-r, dbk.red, dbk.red)"
                     bgClip="text"
                     textAlign="center"
+                    fontFamily="SolanoGothicMVB"
+                    size='2xl'
                 >
                     Course Search by DBK
                 </Heading>
@@ -334,6 +334,7 @@ const Homepage = () => {
                                 _focus={{
                                     boxShadow: colorMode === "dark" ? '0 0 0 1px orange' : 'none',
                                 }}
+                                width={isMobile ? '80vw' : '40rem'}
                             />
                         </form>
                     </Center>

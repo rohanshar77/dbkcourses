@@ -2,6 +2,7 @@ import React from 'react';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import Homepage from "./Homepage";
 import { Helmet } from "react-helmet";
+import './App.css'
 
 const theme = extendTheme({
   config: {
