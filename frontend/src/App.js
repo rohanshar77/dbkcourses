@@ -8,6 +8,19 @@ const theme = extendTheme({
     initialColorMode: "dark",
     useSystemColorMode: false,
   },
+  components: {
+    Switch: {
+      variants: {
+        dbk: {  // 'myStyle' is a custom name for your switch style
+          track: {
+            _checked: {
+              bg: 'red',
+            },
+          },
+        },
+      },
+    },
+  },
   colors: {
     maryland: {
       red: "#BA0C2F",
@@ -16,11 +29,14 @@ const theme = extendTheme({
       white: "#FFFFFF",
     },
     dbk: {
-      red: "#E51D37"
+      red: "#E51D37",
+      red_hover: "#F56565"
     },
     gray: {
       800: "#1c1b1b",
     },
+
+
   },
 });
 

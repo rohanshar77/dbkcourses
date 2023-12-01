@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useEffect } from "react";
 import {
     Box,
@@ -7,7 +7,7 @@ import {
     Heading,
     Input,
     Text, useColorMode,
-    VStack, IconButton, Button, useToast, Image, Switch, HStack, useBreakpointValue, Portal, Collapse
+    VStack, IconButton, Button, useToast, Image, Switch, HStack, useBreakpointValue, Portal, Collapse, Spacer, AbsoluteCenter
 } from "@chakra-ui/react";
 import { InfoIcon } from "@chakra-ui/icons";
 import ColorModeSwitcher from "./ColorModeSwitcher";
@@ -33,20 +33,24 @@ const Homepage = () => {
     const [currContext, setCurrContext] = useState("");
     const [smartTrigger, setSmartTrigger] = useState(false);
     const toast = useToast();
+    const searchElementRef = useRef(null);
 
     const isMobile = useBreakpointValue({ base: true, md: false });
 
     const [isOpen, setIsOpen] = useState(true);
 
-    const scrollThreshold = 300; // for example, 100 pixels
-
     useEffect(() => {
         const handleScroll = () => {
-            const currentScrollY = window.scrollY;
-            if (currentScrollY > scrollThreshold) {
-                setIsOpen(false);
-            } else {
-                setIsOpen(true);
+            // Make sure the ref is set
+            if (searchElementRef.current) {
+                const targetTop = searchElementRef.current.offsetTop + 100;
+                const currentScrollY = window.scrollY;
+
+                if (currentScrollY > targetTop) {
+                    setIsOpen(false);
+                } else {
+                    setIsOpen(true);
+                }
             }
         };
 
@@ -57,7 +61,7 @@ const Homepage = () => {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [scrollThreshold]);
+    }, []);
 
 
 
@@ -235,66 +239,76 @@ const Homepage = () => {
             maxW={{ base: "90%", md: "container.md" }}
         >
 
+            {/* Header */}
+            <Center >
+                <Flex position="fixed" top='0' pt='4' width='100%' zIndex='4' >
 
-            <Flex position="fixed" top={4} right={4} align="end" flexDirection='column'>
-                <Portal>
+                    <Box zIndex='2' ms='4'>
 
-                    <Box mb='3'>
-                        <IconButton
-                            icon={<InfoIcon />}
-                            colorScheme="red"
-                            onClick={openInfoModal}
-                            position="fixed"
-                            top="1rem"
-                            right="4rem"
-                            zIndex="2"
-                            aria-label="Info"
-                        />
-                        <ColorModeSwitcher />
+                        <a href="https://www.dbknews.com">
+                            <Image h='3rem' src="/dbk/image3.png"></Image>
+                        </a>
+
                     </Box>
+                    <Spacer />
 
-                    <Flex alignItems='center' justifyContent='end' p='2' zIndex='250' position='fixed' top='14' right='2' >
-                        <Box
-                            width={isOpen ? "100%" : "0"}
-                            overflow="hidden"
-                            whiteSpace="nowrap"
-                            transition="width 0.5s ease"
-                            ps='0'
-                            h='30px'
-                            borderLeftRadius='md'
-                            alignItems='center'
-                            justifyContent='center'
-                            display='flex'
+                    <Flex flexDirection='column' alignItems='end' me='4'>
 
-                        >
-                            <Text me='2' fontWeight='semibold' textAlign='center'>Include Grad Courses</Text>
+                        <Flex>
+                            <IconButton
+                                icon={<InfoIcon />}
+                                backgroundColor="dbk.red"
+                                _hover={{ backgroundColor: 'dbk.red_hover' }}
+                                textColor='white'
+                                onClick={openInfoModal}
+                                me='2'
+                                zIndex="2"
+                                aria-label="Info"
+                            />
+                            <ColorModeSwitcher />
+                        </Flex>
 
-                        </Box>
+                        <Flex alignItems='center' justifyContent='end' p='2' zIndex='250'>
+                            <Box
+                                width={isOpen ? "100%" : "0"}
+                                overflow="hidden"
+                                whiteSpace="nowrap"
+                                transition="width 0.5s ease"
+                                ps='0'
+                                h='30px'
+                                borderLeftRadius='md'
+                                alignItems='center'
+                                justifyContent='center'
+                                display='flex'
 
-                        <Switch size='md' colorScheme="red" h='30px' alignItems='center'
-                            justifyContent='center' display='flex' />
+                            >
+                                <Text me='2' fontWeight='semibold' textAlign='center'>Include Grad Courses</Text>
 
-                    </Flex>
-                </Portal >
+                            </Box>
 
-            </Flex >
+                            <Switch size='md' h='30px' alignItems='center'
+                                justifyContent='center' display='flex' mb='1' variant="dbk"
+                            />
 
-            <Flex position="fixed" top={4} left={4} align="center" zIndex='2'>
+                        </Flex>
+                    </Flex >
 
-                <a href="https://www.dbknews.com">
-                    <Image h='3rem' src="/dbk/image3.png"></Image>
-                </a>
 
-            </Flex>
+
+                </Flex>
+            </Center>
+
+
+
             <InfoModal isOpen={isInfoModalOpen} onClose={closeInfoModal} />
 
-            <Box></Box>
 
 
 
 
-            <VStack>
-                <Box h={fastSearchResults.length > 0 ? (isMobile ? '15vh' : '5rem') : 0}></Box>
+
+            <VStack mt='10'>
+                <Box h={fastSearchResults.length > 0 ? (isMobile ? '7vh' : '0rem') : 0}></Box>
 
                 <Image mb='3'
                     height={fastSearchResults.length > 0 ? '8rem' : '11rem'} src="/dbk/image4.png"></Image>
@@ -310,6 +324,7 @@ const Homepage = () => {
                     <Center>
                         <form onSubmit={handleSearch}>
                             <Input
+                                ref={searchElementRef}
                                 size="lg"
                                 placeholder="I want to learn about..."
                                 variant="filled"
@@ -323,7 +338,7 @@ const Homepage = () => {
                         </form>
                     </Center>
                 </Flex>
-                <Box pt="10" w="100%" >
+                <Box pt="8" w="100%" >
                     <VStack spacing={4} alignItems="center">
                         {isLoading ? (
                             <LoadingCard />
@@ -342,7 +357,9 @@ const Homepage = () => {
                                     <>
                                         <Center>
                                             <Button
-                                                colorScheme="red"
+                                                backgroundColor="dbk.red"
+                                                textColor="white"
+                                                _hover={{ backgroundColor: 'dbk.red_hover' }}
                                                 leftIcon={<FaMagic />}
                                                 onClick={async () => {
                                                     fetchSmartData(lastSearchTerm);
@@ -360,6 +377,10 @@ const Homepage = () => {
                     </VStack>
                 </Box>
             </VStack>
+
+
+
+
             <Box pb={4} pt={10}>
                 <Text textAlign="center" fontWeight='semibold' fontSize="md" mb='1'>
                     Presented by The Diamonback

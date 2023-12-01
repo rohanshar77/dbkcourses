@@ -14,10 +14,8 @@ const ColorModeSwitcher = () => {
     <IconButton
       aria-label="Toggle dark mode"
       icon={<SwitchIcon />}
+      variant='solid'
       onClick={handleToggle}
-      position="fixed"
-      top="1rem"
-      right="1rem"
       zIndex="1"
     />
   );
