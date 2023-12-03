@@ -36,8 +36,13 @@ const Homepage = () => {
     const searchElementRef = useRef(null);
 
     const isMobile = useBreakpointValue({ base: true, md: false });
-
     const [isOpen, setIsOpen] = useState(true);
+    const [includeGradCourses, setIncludeGradCourses] = useState(false);
+
+    const handleSwitchChange = () => {
+        setIncludeGradCourses(!includeGradCourses);
+    };
+
 
     useEffect(() => {
         const handleScroll = () => {
@@ -288,6 +293,8 @@ const Homepage = () => {
 
                             <Switch size='md' h='30px' alignItems='center'
                                 justifyContent='center' display='flex' mb='1' variant="dbk"
+                                isChecked={includeGradCourses}
+                                onChange={handleSwitchChange}
                             />
 
                         </Flex>
@@ -304,11 +311,11 @@ const Homepage = () => {
 
 
 
-            <VStack mb='4'>
+            <VStack mb={isMobile ? '4' : '12'} mt='4'>
                 <Box h={fastSearchResults.length > 0 ? (isMobile ? '7vh' : '0rem') : 0}></Box>
 
                 <Image mb='4'
-                    height={fastSearchResults.length > 0 ? '8rem' : '11rem'} src="/dbk/image4.png"></Image>
+                    height={fastSearchResults.length > 0 ? '8rem' : '10rem'} src="/dbk/image4.png"></Image>
                 <Heading
                     pt='4'
                     pb="3"
@@ -339,7 +346,7 @@ const Homepage = () => {
                         </form>
                     </Center>
                 </Flex>
-                <Box pt="8" w="100%" >
+                <Box pt="8" w="100%" pb={isMobile ? '0' : '0'}>
                     <VStack spacing={4} alignItems="center">
                         {isLoading ? (
                             <LoadingCard />
