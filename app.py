@@ -49,7 +49,8 @@ async def search():
 
 # Ping pinecone every 24 hours using scheduler to prevent index from getting deleted
 async def ping_pinecone():
-    results = await create_context_pinecone("testing")
+    results = await create_context_pinecone("testing", False)
+    results = await create_context_pinecone("testing", True)
     print("Pinged Pinecone!", results)
 
 
