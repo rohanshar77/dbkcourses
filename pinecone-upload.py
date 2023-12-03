@@ -11,8 +11,8 @@ import ast
 load_dotenv()
 api_key = os.environ["PINE_CONE_API_KEY"]
 
-pinecone.init(api_key=api_key, environment="us-west4-gcp-free")
-index = pinecone.Index("umd-courses")
+pinecone.init(api_key=api_key, environment="gcp-starter")
+index = pinecone.Index("dbkcourses-undergrad")
 
 # This data is in kito's google drive
 df = pd.read_parquet('data/courses_embed (combined w id, level, gpa).parquet')
