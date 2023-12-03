@@ -17,20 +17,24 @@ tokenizer = tiktoken.get_encoding("cl100k_base")
 api_key = os.environ["OPENAI_KEY"]
 openai.api_key = api_key
 
-# pinecone auth
-api_key = os.environ["PINE_CONE_API_KEY"]
-pinecone.init(api_key=api_key, environment="us-west4-gcp-free")
-index = pinecone.Index("umd-courses")
-
-token_limit = 2000  # Set your desired token limit
-score_lower_bound = 0.75  # Set your desired score lower bound
+token_limit = 2000
+score_lower_bound = 0.75
 
 
-async def create_context_pinecone(question):
+async def create_context_pinecone(question, undergrad_only):
     
     """
     Create a context for a question by finding the most similar context from the dataframe
     """
+    # pinecone auth
+    if undergrad_only:
+        api_key = os.environ["PINE_CONE_API_KEY_UNDERGRAD"]
+        pinecone.init(api_key=api_key, environment="gcp-starter")
+        index = pinecone.Index("dbkcourses-undergrad")
+    else:
+        api_key = os.environ["PINE_CONE_API_KEY_ALL"]
+        pinecone.init(api_key=api_key, environment="us-west4-gcp-free")
+        index = pinecone.Index("umd-courses")
 
     # Get the embeddings for the question
     q_embedding = openai.Embedding.create(input=question, engine='text-embedding-ada-002')['data'][0]['embedding']
@@ -46,7 +50,6 @@ async def create_context_pinecone(question):
 
         course = course_name + course_number + course_letter
         courses_in_question.append(course.upper())
-
 
     # If courses were explicitly stated in question, find those courses in pinecone database
     fetch_response = {}
@@ -190,9 +193,10 @@ async def start():
         if user_input.lower() == "exit":
             break
 
-        context = await create_context_pinecone(user_input)
+        # context = await create_context_pinecone(user_input, False)
+        context = await create_context_pinecone(user_input, True)
         resp = await answer_chat(question=user_input, debug=False, context=context["context"])
-        # print(resp)
+        print(resp)
 
 
 if __name__ == '__main__':

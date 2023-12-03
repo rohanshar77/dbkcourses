@@ -9,7 +9,8 @@ import math
 import ast
 
 load_dotenv()
-api_key = os.environ["PINE_CONE_API_KEY"]
+api_key = os.environ["PINE_CONE_API_KEY_UNDERGRAD"]
+# api_key = os.environ["PINE_CONE_API_KEY_ALL"]
 
 pinecone.init(api_key=api_key, environment="gcp-starter")
 index = pinecone.Index("dbkcourses-undergrad")

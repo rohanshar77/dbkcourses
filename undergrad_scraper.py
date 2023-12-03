@@ -53,6 +53,8 @@ class PlanetTerpScraper:
         return response.json()
 
     def write_to_csv(self, data, filename):
+        os.makedirs(os.path.dirname(filename), exist_ok=True)
+
         with open(filename, 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
             writer.writerow(["id", "course_title", "description", "combined", "average_gpa", "credits", "professors"])
